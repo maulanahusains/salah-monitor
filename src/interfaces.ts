@@ -14,3 +14,8 @@ export interface ResetPassUser {
   password: String;
   confirmPassword: String;
 }
+
+export interface JenisType {
+  jenisGerakan: String;
+  perRakaat: Number;
+}

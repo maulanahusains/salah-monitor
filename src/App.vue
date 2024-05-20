@@ -7,3 +7,7 @@ import { RouterView } from 'vue-router';
     <RouterView />
   </div>
 </template>
+
+<!-- <style>
+@import 'datatables.net-bs5';
+</style> -->
