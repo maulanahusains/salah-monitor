@@ -10,7 +10,6 @@ defineProps({
   },
   type: {
     type: String,
-    required: true,
     default: 'text'
   },
   modelValue: {
@@ -22,8 +21,7 @@ defineProps({
     default: ''
   },
   validation: {
-    type: Object,
-    required: true
+    type: Object
   }
 });
 </script>
