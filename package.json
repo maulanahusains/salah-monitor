@@ -25,6 +25,7 @@
     "sass": "^1.77.1",
     "sass-loader": "^10.5.2",
     "vue": "^3.4.21",
+    "vue-multiselect": "^3.0.0",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {

@@ -29,6 +29,15 @@ $lavender-list-bg: #e7e4ff;
 $lavender-list-color: #504799;
 $lavender-list-border: #504799;
 
+.page-item.active .page-link {
+  background-color: $navy-active !important;
+  border: 1px solid $navy;
+}
+
+.page-link {
+  color: $navy;
+}
+
 .btn-outline-navy {
   color: $navy;
   border-color: $navy;
@@ -171,7 +180,7 @@ $lavender-list-border: #504799;
   border-color: $lavender;
 
   &:hover {
-    color: #000;
+    color: white;
     background-color: $lavender;
     border-color: $lavender;
   }
