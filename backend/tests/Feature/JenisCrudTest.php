@@ -28,14 +28,15 @@ class JenisCrudTest extends TestCase
         $user = User::factory()->create();
         $token = $this->getToken($user);
 
-        $response = $this->post('/api/user', [
-            'username' => 'saya_user',
-            'password' => 'passwordnya'
+        $response = $this->post('/api/jenis', [
+            'jenis_name' => 'Ruku',
+            'poin_per_rakaat' => 4
         ], ['Authorization' => "Bearer $token"]);
 
         $response->assertStatus(201)
-            ->assertDatabaseHas('users', [
-                'username' => 'saya_user'
+            ->assertJsonFragment(['success' => true])
+            ->assertDatabaseHas('jenis', [
+                'jenis_name' => 'Ruku'
             ]);
     }
 
@@ -47,14 +48,19 @@ class JenisCrudTest extends TestCase
         $user = User::factory()->create();
         $token = $this->getToken($user);
 
-        $response = $this->put('/api/user/' . $user->id, [
-            'username' => 'updated_user',
+        $jenis = Jenis::create([
+            'jenis_name' => 'Ruku',
+            'poin_per_rakaat' => 4
+        ]);
+
+        $response = $this->put('/api/jenis/' . $jenis->id, [
+            'jenis_name' => 'Sujud',
         ], ['Authorization' => "Bearer $token"]);
 
         $response->assertStatus(200)
-            ->assertDatabaseHas('users', [
-                'id' => $user->id,
-                'username' => 'updated_user'
+            ->assertJsonFragment(['success' => true])
+            ->assertDatabaseHas('jenis', [
+                'jenis_name' => 'Sujud'
             ]);
     }
 
@@ -65,11 +71,34 @@ class JenisCrudTest extends TestCase
     {
         $user = User::factory()->create();
         $token = $this->getToken($user);
+        $jenis = Jenis::create([
+            'jenis_name' => 'Ruku',
+            'poin_per_rakaat' => 4
+        ]);
 
-        $response = $this->delete('/api/user/' . $user->id, [
+        $response = $this->delete('/api/jenis/' . $jenis->id, [
             'Authorization' => "Bearer $token",
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['success' => true]);
+    }
+
+    public function test_data_must_failed_when_jenis_name_is_same(): void
+    {
+        $user = User::factory()->create();
+        $token = $this->getToken($user);
+
+        Jenis::create([
+            'jenis_name' => 'Ruku',
+            'poin_per_rakaat' => 4
+        ]);
+
+        $response = $this->post('/api/jenis', [
+            'jenis_name' => 'Ruku',
+            'poin_per_rakaat' => 4
+        ], ['Authorization' => "Bearer $token"]);
+        $response->assertStatus(422)
+            ->assertJsonFragment(['success' => false]);
     }
 }

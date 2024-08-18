@@ -34,6 +34,7 @@ class UserCrudTest extends TestCase
         ], ['Authorization' => "Bearer $token"]);
 
         $response->assertStatus(201)
+            ->assertJsonFragment(['success' => true])
             ->assertDatabaseHas('users', [
                 'username' => 'saya_user'
             ]);
@@ -52,6 +53,7 @@ class UserCrudTest extends TestCase
         ], ['Authorization' => "Bearer $token"]);
 
         $response->assertStatus(200)
+            ->assertJsonFragment(['success' => true])
             ->assertDatabaseHas('users', [
                 'id' => $user->id,
                 'username' => 'updated_user'
@@ -70,6 +72,7 @@ class UserCrudTest extends TestCase
             'Authorization' => "Bearer $token",
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['success' => true]);
     }
 }
