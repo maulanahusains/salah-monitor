@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('monitors', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_monitor');
+            $table->date('tanggal_monitor');
+            $table->foreignId('jenis_id')->constrained('jenis');
+            $table->integer('total_rakaat');
+            $table->integer('total_sukses');
+            $table->integer('total_gagal');
+            $table->float('persentase');
             $table->timestamps();
         });
     }
