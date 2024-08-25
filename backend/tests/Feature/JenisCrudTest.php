@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Jenis;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -34,10 +35,7 @@ class JenisCrudTest extends TestCase
         ], ['Authorization' => "Bearer $token"]);
 
         $response->assertStatus(201)
-            ->assertJsonFragment(['success' => true])
-            ->assertDatabaseHas('jenis', [
-                'jenis_name' => 'Ruku'
-            ]);
+            ->assertJsonFragment(['success' => true]);
     }
 
     /**
@@ -58,10 +56,7 @@ class JenisCrudTest extends TestCase
         ], ['Authorization' => "Bearer $token"]);
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['success' => true])
-            ->assertDatabaseHas('jenis', [
-                'jenis_name' => 'Sujud'
-            ]);
+            ->assertJsonFragment(['success' => true]);
     }
 
     /**

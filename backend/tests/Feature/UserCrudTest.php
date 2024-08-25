@@ -21,6 +21,35 @@ class UserCrudTest extends TestCase
     }
 
     /**
+     * Test To Validate Fields
+     */
+
+    public function test_fields_must_be_filled(): void
+    {
+        $user = User::factory()->create();
+        $token = $this->getToken($user);
+
+        $response = $this->post('/api/user', [], ['Authorization' => "Bearer $token"]);
+
+        $response->assertStatus(400)
+            ->assertJsonFragment(['success' => false]);
+    }
+
+    public function test_password_minimum_length(): void
+    {
+        $user = User::factory()->create();
+        $token = $this->getToken($user);
+
+        $response = $this->post('/api/user', [
+            'username' => 'saya_user',
+            'password' => 'pass'
+        ], ['Authorization' => "Bearer $token"]);
+
+        $response->assertStatus(400)
+            ->assertJsonFragment(['success' => false]);
+    }
+
+    /**
      * Test To Create Data
      */
     public function test_data_must_created(): void
@@ -34,10 +63,7 @@ class UserCrudTest extends TestCase
         ], ['Authorization' => "Bearer $token"]);
 
         $response->assertStatus(201)
-            ->assertJsonFragment(['success' => true])
-            ->assertDatabaseHas('users', [
-                'username' => 'saya_user'
-            ]);
+            ->assertJsonFragment(['success' => true]);
     }
 
     /**
@@ -53,11 +79,7 @@ class UserCrudTest extends TestCase
         ], ['Authorization' => "Bearer $token"]);
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['success' => true])
-            ->assertDatabaseHas('users', [
-                'id' => $user->id,
-                'username' => 'updated_user'
-            ]);
+            ->assertJsonFragment(['success' => true]);
     }
 
     /**

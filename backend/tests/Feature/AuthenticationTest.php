@@ -56,6 +56,36 @@ class AuthenticationTest extends TestCase
     }
 
     /**
+     * Test that a user can't login when the password is incorrect.
+     */
+    public function test_user_should_not_login_when_password_is_incorrect(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post('/api/auth/login', [
+            'username' => $user->username,
+            'password' => 'wrong_password',
+        ]);
+
+        $response->assertStatus(401)
+            ->assertJsonFragment(['success' => false]);
+    }
+
+    /**
+     * Test that a user can't login when the username is incorrect.
+     */
+    public function test_user_should_not_login_when_username_is_incorrect(): void
+    {
+        $user = User::factory()->create();
+        $response = $this->post('/api/auth/login', [
+            'username' => 'wrong_username',
+            'password' => 'password',
+        ]);
+        $response->assertStatus(401)
+            ->assertJsonFragment(['success' => false]);
+    }
+
+    /**
      * Test that a user can log out.
      */
     public function test_user_should_logged_out(): void
